@@ -8,7 +8,7 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
-@Table("order_schema.orders")
+@Table(name = "orders", schema = "order_schema")
 data class Order(
     @Id val id: OrderId? = null,
     val status: OrderStatus = PENDING,

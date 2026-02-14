@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.bundles.spring.boot.starters)
     implementation(libs.bundles.kotlin.base)
     implementation(libs.arrow.core)
+    implementation(libs.springdoc.openapi)
     developmentOnly(libs.devtools)
     runtimeOnly(libs.postgresql)
     testImplementation(libs.starter.test) {

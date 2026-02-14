@@ -7,3 +7,9 @@ spring:
     password: ${DATABASE_PASSWORD:imedia}
   liquibase:
     enabled: false
+
+logging:
+  level:
+    org.springframework.jdbc.core: DEBUG
+    org.springframework.data.jdbc: DEBUG
+    org.springframework.transaction: DEBUG
