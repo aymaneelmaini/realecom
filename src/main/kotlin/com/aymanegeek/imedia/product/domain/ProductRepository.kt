@@ -1,4 +1,7 @@
 package com.aymanegeek.imedia.product.domain
 
-interface ProductRepository {
+import org.springframework.data.repository.CrudRepository
+
+interface ProductRepository : CrudRepository<Product, ProductId> {
+    fun existsByName(name: String): Boolean
 }
