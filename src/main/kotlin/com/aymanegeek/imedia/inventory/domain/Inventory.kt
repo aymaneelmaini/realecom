@@ -11,7 +11,8 @@ data class Inventory(
     @Id val id: InventoryId? = null,
     val productId: ProductId,
     val availableQuantity: Quantity,
-    val reservedQuantity: Quantity
+    val reservedQuantity: Quantity,
+    val version: Long = 0
 )
 
 @JvmInline
