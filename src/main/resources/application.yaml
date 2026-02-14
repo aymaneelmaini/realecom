@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: imedia
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/imedia}
+    username: ${DATABASE_USER:imedia}
+    password: ${DATABASE_PASSWORD:imedia}
+  liquibase:
+    enabled: false
