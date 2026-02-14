@@ -7,3 +7,7 @@ databaseChangeLog:
       file: db/changelog/003_create_inventory_table.sql
   - include:
       file: db/changelog/004_create_payment_table.sql
+  - include:
+      file: db/changelog/005_add_version_to_inventory.sql
+  - include:
+      file: db/changelog/006_create_user_table.sql

@@ -12,15 +12,19 @@ import com.aymanegeek.imedia.inventory.domain.InventoryError
 import com.aymanegeek.imedia.inventory.domain.InventoryRepository
 import com.aymanegeek.imedia.product.domain.ProductId
 import com.aymanegeek.imedia.product.domain.ProductRepository
+import org.springframework.data.jdbc.core.JdbcAggregateTemplate
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
 class DefaultInventoryService(
     private val inventoryRepository: InventoryRepository,
+    private val jdbcTemplate: JdbcAggregateTemplate,
     private val productRepository: ProductRepository
 ) : InventoryService {
 
+    @Transactional
     override fun createInventory(request: CreateInventoryRequest): Either<InventoryError, InventoryResponse> = either {
         val productId = ProductId(request.productId)
 
@@ -36,16 +40,16 @@ class DefaultInventoryService(
             InventoryError.InvalidQuantity("Available quantity must be positive")
         }
 
-        val inventory = Inventory(
+        val inventory = Inventory.create(
             productId = productId,
-            availableQuantity = Quantity(request.availableQuantity),
-            reservedQuantity = Quantity(0)
+            availableQuantity = Quantity(request.availableQuantity)
         )
 
-        val saved = inventoryRepository.save(inventory)
+        val saved = jdbcTemplate.insert(inventory)
         saved.toResponse()
     }
 
+    @Transactional
     override fun updateInventory(request: UpdateInventoryRequest): Either<InventoryError, InventoryResponse> = either {
         val productId = ProductId(request.productId)
 
@@ -69,6 +73,7 @@ class DefaultInventoryService(
         saved.toResponse()
     }
 
+    @Transactional(readOnly = true)
     override fun findByProductId(id: UUID): Either<InventoryError, InventoryResponse> = either {
         val productId = ProductId(id)
 
@@ -78,6 +83,7 @@ class DefaultInventoryService(
         inventory.toResponse()
     }
 
+    @Transactional(readOnly = true)
     override fun findAll(): Either<InventoryError, List<InventoryResponse>> = either {
         inventoryRepository.findAll()
             .map { it.toResponse() }
@@ -85,7 +91,7 @@ class DefaultInventoryService(
     }
 
     private fun Inventory.toResponse() = InventoryResponse(
-        inventoryId = id!!.value,
+        inventoryId = id.value,
         productId = productId.value,
         availableQuantity = availableQuantity.value,
         reservedQuantity = reservedQuantity.value

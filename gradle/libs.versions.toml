@@ -10,6 +10,7 @@ kotest-extensions = "1.1.3"
 mockk = "1.13.8"
 springmockk = "4.0.2"
 arrow = "2.2.1.1"
+springdoc = "2.7.0"
 
 [libraries]
 # spring boot starters
@@ -18,6 +19,8 @@ starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-dat
 starter-liquibase = { module = "org.springframework.boot:spring-boot-starter-liquibase", version.ref = "spring-boot" }
 starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "spring-boot" }
 starter-webmvc = { module = "org.springframework.boot:spring-boot-starter-webmvc", version.ref = "spring-boot" }
+starter-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-boot" }
+starter-oauth2-resource-server = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server", version.ref = "spring-boot" }
 
 # kotlin & jackson
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -46,6 +49,7 @@ testcontainers-junit = { module = "org.testcontainers:testcontainers-junit-jupit
 testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "testcontainers" }
 
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 
 [bundles]
 spring-boot-starters = [
@@ -53,7 +57,9 @@ spring-boot-starters = [
     "starter-data-jdbc",
     "starter-liquibase",
     "starter-validation",
-    "starter-webmvc"
+    "starter-webmvc",
+    "starter-security",
+    "starter-oauth2-resource-server"
 ]
 
 kotlin-base = [
