@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 import java.util.*
 
-@Table("order_lines")
+@Table("order_schema.order_lines")
 data class OrderLine(
     @Id val id: OrderLineId,
     val orderId: OrderId,

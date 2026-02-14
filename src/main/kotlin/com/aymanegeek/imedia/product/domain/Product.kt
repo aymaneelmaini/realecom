@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
-@Table("products")
+@Table("product_schema.products")
 data class Product(
     @Id val id: ProductId? = null,
     val name: String,

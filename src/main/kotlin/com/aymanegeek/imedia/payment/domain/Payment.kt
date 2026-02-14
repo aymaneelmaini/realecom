@@ -6,7 +6,7 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 import java.util.UUID
 
-@Table("payments")
+@Table("payment_schema.payments")
 data class Payment(
     val id: PaymentId? = null,
     val orderId: OrderId,

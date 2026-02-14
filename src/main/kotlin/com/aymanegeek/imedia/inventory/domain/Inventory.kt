@@ -5,7 +5,7 @@ import com.aymanegeek.imedia.product.domain.ProductId
 import org.springframework.data.relational.core.mapping.Table
 import java.util.UUID
 
-@Table("inventories")
+@Table("inventory_schema.inventories")
 data class Inventory(
     val id: InventoryId? = null,
     val productId: ProductId,
