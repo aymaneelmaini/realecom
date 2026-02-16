@@ -10,21 +10,19 @@ import com.aymanegeek.imedia.inventory.application.dto.UpdateInventoryRequest
 import com.aymanegeek.imedia.inventory.domain.Inventory
 import com.aymanegeek.imedia.inventory.domain.InventoryError
 import com.aymanegeek.imedia.inventory.domain.InventoryRepository
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 import com.aymanegeek.imedia.product.domain.ProductRepository
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
-@Service
+@Transactional
 class DefaultInventoryService(
     private val inventoryRepository: InventoryRepository,
     private val jdbcTemplate: JdbcAggregateTemplate,
     private val productRepository: ProductRepository
 ) : InventoryService {
 
-    @Transactional
     override fun createInventory(request: CreateInventoryRequest): Either<InventoryError, InventoryResponse> = either {
         val productId = ProductId(request.productId)
 
@@ -49,7 +47,6 @@ class DefaultInventoryService(
         saved.toResponse()
     }
 
-    @Transactional
     override fun updateInventory(request: UpdateInventoryRequest): Either<InventoryError, InventoryResponse> = either {
         val productId = ProductId(request.productId)
 
@@ -73,7 +70,6 @@ class DefaultInventoryService(
         saved.toResponse()
     }
 
-    @Transactional(readOnly = true)
     override fun findByProductId(id: UUID): Either<InventoryError, InventoryResponse> = either {
         val productId = ProductId(id)
 
@@ -83,7 +79,6 @@ class DefaultInventoryService(
         inventory.toResponse()
     }
 
-    @Transactional(readOnly = true)
     override fun findAll(): Either<InventoryError, List<InventoryResponse>> = either {
         inventoryRepository.findAll()
             .map { it.toResponse() }

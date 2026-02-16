@@ -1,7 +1,6 @@
 package com.aymanegeek.imedia
 
-import com.aymanegeek.imedia.payment.infra.stripe.StripeConfiguration
-import com.aymanegeek.imedia.payment.infra.stripe.StripeConfigurationProperties
+import com.aymanegeek.imedia.payment.infra.config.StripeConfigurationProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication

@@ -1,9 +1,7 @@
 package com.aymanegeek.imedia.order.domain
 
-import com.aymanegeek.imedia.order.domain.OrderStatus.PENDING
 import com.aymanegeek.imedia.common.vo.Price
-import com.aymanegeek.imedia.product.domain.Product
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.order.domain.OrderStatus.PENDING
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.ReadOnlyProperty
 import org.springframework.data.relational.core.mapping.Column

@@ -9,20 +9,18 @@ import com.aymanegeek.imedia.product.application.dto.CreateProductRequest
 import com.aymanegeek.imedia.product.application.dto.ProductResponse
 import com.aymanegeek.imedia.product.domain.Product
 import com.aymanegeek.imedia.product.domain.ProductError
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 import com.aymanegeek.imedia.product.domain.ProductRepository
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
-@Service
+@Transactional
 class DefaultProductService(
     private val productRepository: ProductRepository,
     private val jdbcTemplate: JdbcAggregateTemplate
 ) : ProductService {
 
-    @Transactional
     override fun createProduct(request: CreateProductRequest): Either<ProductError, ProductResponse> = either {
         val (name, description, priceDto) = request
 

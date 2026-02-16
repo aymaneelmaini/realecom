@@ -11,9 +11,7 @@ import com.stripe.model.PaymentLink
 import com.stripe.model.Price as StripePrice
 import com.stripe.param.PaymentLinkCreateParams
 import com.stripe.param.PriceCreateParams
-import org.springframework.stereotype.Component
 
-@Component
 class StripePaymentProcessor : PaymentProcessor {
 
     override fun createPaymentLink(

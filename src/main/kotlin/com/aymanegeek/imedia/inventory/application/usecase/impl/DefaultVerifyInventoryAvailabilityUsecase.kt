@@ -10,16 +10,14 @@ import com.aymanegeek.imedia.inventory.application.usecase.VerifyInventoryRespon
 import com.aymanegeek.imedia.inventory.domain.Inventory
 import com.aymanegeek.imedia.inventory.domain.InventoryError
 import com.aymanegeek.imedia.inventory.domain.InventoryRepository
-import com.aymanegeek.imedia.product.domain.ProductId
-import org.springframework.stereotype.Service
+import com.aymanegeek.imedia.common.vo.ProductId
 import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Transactional(readOnly = true)
 class DefaultVerifyInventoryAvailabilityUsecase(
     private val inventoryRepository: InventoryRepository
 ) : VerifyInventoryAvailabilityUsecase {
 
-    @Transactional(readOnly = true)
     override fun execute(items: List<InventoryItem>): Either<InventoryError, VerifyInventoryResponse> = either {
 
         val productIds = items.map { it.productId }

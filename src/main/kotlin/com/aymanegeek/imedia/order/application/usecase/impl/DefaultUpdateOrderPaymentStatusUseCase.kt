@@ -12,16 +12,14 @@ import com.aymanegeek.imedia.order.domain.OrderStatus
 import com.aymanegeek.imedia.payment.domain.Payment
 import com.aymanegeek.imedia.payment.domain.PaymentRepository
 import com.aymanegeek.imedia.payment.domain.PaymentStatus
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Transactional
 class DefaultUpdateOrderPaymentStatusUseCase(
     private val orderRepository: OrderRepository,
     private val paymentRepository: PaymentRepository
 ) : UpdateOrderPaymentStatusUseCase {
 
-    @Transactional
     override fun execute(request: UpdateOrderPaymentStatusRequest): Either<OrderError, UpdateOrderPaymentStatusResponse> = either {
         val order = orderRepository.findById(request.orderId).orElse(null)
 

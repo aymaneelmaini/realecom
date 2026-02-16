@@ -1,8 +1,7 @@
 package com.aymanegeek.imedia.product.domain
 
 import com.aymanegeek.imedia.common.vo.Price
-import com.aymanegeek.imedia.product.application.dto.ProductResponse
-import jakarta.validation.OverridesAttribute
+import com.aymanegeek.imedia.common.vo.ProductId
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.ReadOnlyProperty
 import org.springframework.data.relational.core.mapping.Embedded
@@ -10,7 +9,6 @@ import org.springframework.data.relational.core.mapping.Embedded.OnEmpty.USE_NUL
 import org.springframework.data.relational.core.mapping.Table
 import java.math.BigDecimal
 import java.time.LocalDateTime
-import java.util.*
 
 @Table(name = "products", schema = "product_schema")
 data class Product(
@@ -38,13 +36,6 @@ data class Product(
             price = price,
             createdAt = null
         )
-    }
-}
-
-@JvmInline
-value class ProductId(val value: UUID) {
-    companion object {
-        fun generate() = ProductId(UUID.randomUUID())
     }
 }
 

@@ -1,20 +1,18 @@
-package com.aymanegeek.imedia.payment.application.service
+package com.aymanegeek.imedia.payment.application
 
 import arrow.core.Either
 import com.aymanegeek.imedia.order.application.usecase.UpdateOrderPaymentStatusRequest
 import com.aymanegeek.imedia.order.application.usecase.UpdateOrderPaymentStatusUseCase
 import com.aymanegeek.imedia.order.domain.OrderId
 import com.aymanegeek.imedia.payment.domain.WebhookError
-import com.aymanegeek.imedia.payment.infra.stripe.StripeConfigurationProperties
+import com.aymanegeek.imedia.payment.infra.config.StripeConfigurationProperties
 import com.stripe.exception.SignatureVerificationException
 import com.stripe.model.Event
 import com.stripe.model.checkout.Session
 import com.stripe.net.Webhook
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 import java.util.*
 
-@Service
 class StripeWebhookHandler(
     private val updateOrderPaymentStatusUseCase: UpdateOrderPaymentStatusUseCase,
     private val configurationProperties: StripeConfigurationProperties

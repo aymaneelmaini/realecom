@@ -2,7 +2,7 @@ package com.aymanegeek.imedia.order.domain
 
 import com.aymanegeek.imedia.common.vo.Quantity
 import com.aymanegeek.imedia.common.vo.Price
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.ReadOnlyProperty
 import org.springframework.data.relational.core.mapping.Embedded

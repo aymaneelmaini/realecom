@@ -1,4 +1,4 @@
-package com.aymanegeek.imedia.payment.infra.stripe
+package com.aymanegeek.imedia.payment.infra.config
 
 import com.stripe.Stripe
 import jakarta.annotation.PostConstruct

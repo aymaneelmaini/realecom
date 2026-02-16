@@ -3,7 +3,7 @@ package com.aymanegeek.imedia.common.config
 import com.aymanegeek.imedia.inventory.domain.InventoryId
 import com.aymanegeek.imedia.order.domain.OrderId
 import com.aymanegeek.imedia.order.domain.OrderLineId
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 import com.aymanegeek.imedia.user.domain.UserId
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.converter.Converter

@@ -13,16 +13,15 @@ import com.aymanegeek.imedia.inventory.application.usecase.VerifyInventoryAvaila
 import com.aymanegeek.imedia.inventory.application.usecase.VerifyInventoryResponse
 import com.aymanegeek.imedia.inventory.domain.InventoryError
 import com.aymanegeek.imedia.inventory.domain.InventoryRepository
-import org.springframework.stereotype.Service
+import com.aymanegeek.imedia.common.vo.ProductId
 import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Transactional
 class DefaultReserveInventoryUsecase(
     private val inventoryRepository: InventoryRepository,
     private val verifyInventoryAvailabilityUsecase: VerifyInventoryAvailabilityUsecase
 ) : ReserveInventoryUsecase {
 
-    @Transactional
     override fun execute(items: List<InventoryItem>): Either<InventoryError, ReserveInventoryResponse> = either {
         verifyInventoryAvailabilityUsecase.execute(items).bind()
             .also { ensureAllAvailable(it) }
@@ -51,7 +50,7 @@ class DefaultReserveInventoryUsecase(
 
     private fun reserveItem(
         item: InventoryItem,
-        inventoriesMap: Map<com.aymanegeek.imedia.product.domain.ProductId, com.aymanegeek.imedia.inventory.domain.Inventory>
+        inventoriesMap: Map<ProductId, com.aymanegeek.imedia.inventory.domain.Inventory>
     ): Reservation {
         val inventory = inventoriesMap.getValue(item.productId)
         val newAvailableQuantity = Quantity(inventory.availableQuantity.value - item.quantity.value)

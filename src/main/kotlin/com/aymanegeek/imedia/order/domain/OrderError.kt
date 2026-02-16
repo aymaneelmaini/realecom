@@ -1,7 +1,7 @@
 package com.aymanegeek.imedia.order.domain
 
 import com.aymanegeek.imedia.common.error.DomainError
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 import org.springframework.http.HttpStatus
 import java.util.UUID
 

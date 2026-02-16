@@ -12,19 +12,17 @@ import com.aymanegeek.imedia.user.domain.UserError
 import com.aymanegeek.imedia.user.domain.UserId
 import com.aymanegeek.imedia.user.domain.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-@Service
+@Transactional(readOnly = true)
 class DefaultAuthService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     private val tokenService: TokenService
 ) : AuthService {
 
-    @Transactional(readOnly = true)
     override fun login(request: LoginRequest): Either<UserError, TokenResponse> = either {
         val user = userRepository.findByEmail(request.email)
             .getOrNull() ?: raise(UserError.InvalidCredentials(request.email))
@@ -43,7 +41,6 @@ class DefaultAuthService(
         )
     }
 
-    @Transactional(readOnly = true)
     override fun refresh(request: RefreshTokenRequest): Either<UserError, TokenResponse> = either {
         val validationResult = tokenService.validateToken(request.refreshToken)
 

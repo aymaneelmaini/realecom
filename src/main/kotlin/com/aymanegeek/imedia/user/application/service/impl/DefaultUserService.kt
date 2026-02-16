@@ -12,20 +12,18 @@ import com.aymanegeek.imedia.user.domain.UserId
 import com.aymanegeek.imedia.user.domain.UserRepository
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 
-@Service
-class DefaultUserService(
+@Transactional
+open class DefaultUserService(
     private val userRepository: UserRepository,
     private val jdbcTemplate: JdbcAggregateTemplate,
     private val passwordEncoder: PasswordEncoder
 ) : UserService {
 
-    @Transactional
     override fun register(request: RegisterRequest): Either<UserError, UserResponse> = either {
         val (email, password, name) = request
 
@@ -49,7 +47,6 @@ class DefaultUserService(
         saved.toResponse()
     }
 
-    @Transactional(readOnly = true)
     override fun findById(id: UUID): Either<UserError, UserResponse> = either {
         val userId = UserId(id)
 
@@ -59,7 +56,6 @@ class DefaultUserService(
         user.toResponse()
     }
 
-    @Transactional(readOnly = true)
     override fun findByEmail(email: String): Either<UserError, UserResponse> = either {
         val user = userRepository.findByEmail(email)
             .getOrNull() ?: raise(UserError.UserNotFoundByEmail(email))

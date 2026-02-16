@@ -19,11 +19,12 @@ import com.aymanegeek.imedia.payment.domain.PaymentProcessor
 import com.aymanegeek.imedia.product.application.usecase.VerifyProductsExistUsecase
 import com.aymanegeek.imedia.product.application.usecase.VerifyProductsRequest
 import com.aymanegeek.imedia.product.domain.ProductError
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 import com.aymanegeek.imedia.product.domain.ProductRepository
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 class DefaultCreateOrderUseCase(
     private val verifyProductExistUsecase: VerifyProductsExistUsecase,
     private val reserveInventoryUsecase: ReserveInventoryUsecase,
@@ -32,7 +33,6 @@ class DefaultCreateOrderUseCase(
     private val jdbcTemplate: JdbcAggregateTemplate
 ) : CreateOrderUseCase {
 
-    @Transactional
     override fun execute(request: CreateOrderRequest): Either<OrderError, CreateOrderResponse> = either {
         val (orderLines, _) = request
 

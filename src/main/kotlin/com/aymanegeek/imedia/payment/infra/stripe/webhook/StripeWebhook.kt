@@ -1,6 +1,6 @@
 package com.aymanegeek.imedia.payment.infra.stripe.webhook
 
-import com.aymanegeek.imedia.payment.application.service.StripeWebhookHandler
+import com.aymanegeek.imedia.payment.application.StripeWebhookHandler
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

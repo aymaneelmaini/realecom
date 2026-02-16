@@ -1,5 +1,6 @@
 package com.aymanegeek.imedia.product.domain
 
+import com.aymanegeek.imedia.common.vo.ProductId
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.*

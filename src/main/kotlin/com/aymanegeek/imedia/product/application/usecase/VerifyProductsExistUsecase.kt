@@ -2,7 +2,7 @@ package com.aymanegeek.imedia.product.application.usecase
 
 import arrow.core.Either
 import com.aymanegeek.imedia.product.domain.ProductError
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 
 interface VerifyProductsExistUsecase {
 

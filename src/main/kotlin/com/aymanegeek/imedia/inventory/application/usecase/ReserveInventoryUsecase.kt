@@ -3,7 +3,7 @@ package com.aymanegeek.imedia.inventory.application.usecase
 import arrow.core.Either
 import com.aymanegeek.imedia.common.vo.Quantity
 import com.aymanegeek.imedia.inventory.domain.InventoryError
-import com.aymanegeek.imedia.product.domain.ProductId
+import com.aymanegeek.imedia.common.vo.ProductId
 
 interface ReserveInventoryUsecase {
 
