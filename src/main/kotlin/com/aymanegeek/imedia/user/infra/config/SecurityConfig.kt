@@ -35,6 +35,7 @@ class SecurityConfig {
                 auth
                     .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/v1/users/register").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/webhooks/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .anyRequest().authenticated()

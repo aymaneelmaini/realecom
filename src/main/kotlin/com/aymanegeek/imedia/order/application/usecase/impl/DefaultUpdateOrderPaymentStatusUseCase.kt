@@ -29,36 +29,38 @@ class DefaultUpdateOrderPaymentStatusUseCase(
             OrderError.OrderNotFound(request.orderId.value)
         }
 
-        val newOrderStatus = if (request.isPaid) OrderStatus.PAID else OrderStatus.FAILED
-        val newPaymentStatus = if (request.isPaid) PaymentStatus.SUCCESS else PaymentStatus.FAILED
+        val (orderStatus, paymentStatus) = determineStatuses(request.isPaid)
 
-        // Update order status
-        val updatedOrder = order.copy(status = newOrderStatus)
-        orderRepository.save(updatedOrder)
-
-        // Find or create payment record
-        val existingPayment = paymentRepository.findByOrderId(request.orderId)
-        if (existingPayment != null) {
-            paymentRepository.save(
-                existingPayment.copy(
-                    status = newPaymentStatus,
-                    externalPaymentId = request.externalPaymentId
-                )
-            )
-        } else {
-            paymentRepository.save(
-                Payment(
-                    orderId = request.orderId,
-                    amount = order.totalPrice,
-                    status = newPaymentStatus,
-                    externalPaymentId = request.externalPaymentId
-                )
-            )
-        }
+        orderRepository.save(order.copy(status = orderStatus))
+        updateOrCreatePayment(request, order, paymentStatus)
 
         UpdateOrderPaymentStatusResponse(
             orderId = request.orderId,
-            status = newOrderStatus.name
+            status = orderStatus.name
         )
+    }
+
+    private fun determineStatuses(isPaid: Boolean) =
+        if (isPaid) OrderStatus.PAID to PaymentStatus.SUCCESS
+        else OrderStatus.FAILED to PaymentStatus.FAILED
+
+    private fun updateOrCreatePayment(
+        request: UpdateOrderPaymentStatusRequest,
+        order: com.aymanegeek.imedia.order.domain.Order,
+        paymentStatus: PaymentStatus
+    ) {
+        val existingPayment = paymentRepository.findByOrderId(request.orderId)
+
+        val payment = existingPayment?.copy(
+            status = paymentStatus,
+            externalPaymentId = request.externalPaymentId
+        ) ?: Payment(
+            orderId = request.orderId,
+            amount = order.totalPrice,
+            status = paymentStatus,
+            externalPaymentId = request.externalPaymentId
+        )
+
+        paymentRepository.save(payment)
     }
 }

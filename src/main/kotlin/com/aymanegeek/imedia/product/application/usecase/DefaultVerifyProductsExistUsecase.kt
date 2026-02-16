@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service
 class DefaultVerifyProductsExistUsecase(private val repository: ProductRepository) :
     VerifyProductsExistUsecase {
     override fun execute(request: VerifyProductsRequest): Either<ProductError, VerifyProductsResponse> {
-        val availability = request.ids.associateWith { repository.existsById(it) }
-        val existingProducts = availability.filter { it.value }.map { it.key }.toSet()
-        val missingProducts = availability.filter { !it.value }.map { it.key }.toSet()
+        val (existingProducts, missingProducts) = request.ids
+            .partition(repository::existsById)
 
-        return VerifyProductsResponse(existingProducts, missingProducts).right()
+        return VerifyProductsResponse(
+            existingProducts = existingProducts.toSet(),
+            missingProducts = missingProducts.toSet()
+        ).right()
     }
 
 }
