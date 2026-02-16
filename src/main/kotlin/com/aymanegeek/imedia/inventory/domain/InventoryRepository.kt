@@ -6,5 +6,6 @@ import java.util.*
 
 interface InventoryRepository : CrudRepository<Inventory, InventoryId> {
     fun findByProductId(productId: ProductId): Optional<Inventory>
+    fun findAllByProductIdIn(productIds: List<ProductId>): List<Inventory>
     fun existsByProductId(productId: ProductId): Boolean
 }

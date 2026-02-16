@@ -6,4 +6,5 @@ interface DomainError {
     val message: String
     val httpStatus: HttpStatus
     val errorCode: String
+    val details: Any? get() = null
 }

@@ -13,3 +13,8 @@ logging:
     org.springframework.jdbc.core: DEBUG
     org.springframework.data.jdbc: DEBUG
     org.springframework.transaction: DEBUG
+
+app:
+  stripe:
+    secretKey: ${STRIPE_SECRET_KEY}
+    webhookSecret: ${STRIPE_WEBHOOK_SECRET}

@@ -45,8 +45,8 @@ class JwtTokenService(
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).tokenValue
     }
 
-    override fun validateToken(token: String): TokenValidationResult {
-        return try {
+    override fun validateToken(token: String): TokenValidationResult =
+        try {
             val jwt = jwtDecoder.decode(token)
             TokenValidationResult(
                 isValid = true,
@@ -56,12 +56,11 @@ class JwtTokenService(
         } catch (e: Exception) {
             TokenValidationResult(isValid = false)
         }
-    }
 
     override fun getAccessTokenValiditySeconds(): Long = ACCESS_TOKEN_VALIDITY_MINUTES * 60
 
     companion object {
-        const val ACCESS_TOKEN_VALIDITY_MINUTES = 15L
+        const val ACCESS_TOKEN_VALIDITY_MINUTES = 480L // 8 hours
         const val REFRESH_TOKEN_VALIDITY_DAYS = 7L
     }
 }

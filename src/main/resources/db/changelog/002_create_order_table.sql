@@ -1,12 +1,11 @@
 CREATE SCHEMA IF NOT EXISTS order_schema;
 
-CREATE TYPE order_schema.ORDER_STATUS AS ENUM ('PENDING', 'RESERVED', 'PAID', 'CONFIRMED', 'FAILED', 'CANCELLED');
-
 CREATE TABLE order_schema.orders
 (
     id         UUID PRIMARY KEY,
-    status     order_schema.ORDER_STATUS,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    status     VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT check_order_status CHECK (status IN ('PENDING', 'RESERVED', 'PAID', 'CONFIRMED', 'FAILED', 'CANCELLED'))
 );
 
 CREATE TABLE order_schema.order_lines

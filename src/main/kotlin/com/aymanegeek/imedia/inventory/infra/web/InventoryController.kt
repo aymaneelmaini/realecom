@@ -18,38 +18,34 @@ class InventoryController(
 ) {
 
     @PostMapping
-    fun createInventory(@Valid @RequestBody request: CreateInventoryRequest): ResponseEntity<InventoryResponse> {
-        return inventoryService.createInventory(request)
+    fun createInventory(@Valid @RequestBody request: CreateInventoryRequest): ResponseEntity<InventoryResponse> =
+        inventoryService.createInventory(request)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity(it, HttpStatus.CREATED) }
             )
-    }
 
     @PutMapping
-    fun updateInventory(@Valid @RequestBody request: UpdateInventoryRequest): ResponseEntity<InventoryResponse> {
-        return inventoryService.updateInventory(request)
+    fun updateInventory(@Valid @RequestBody request: UpdateInventoryRequest): ResponseEntity<InventoryResponse> =
+        inventoryService.updateInventory(request)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 
     @GetMapping("/product/{productId}")
-    fun findByProductId(@PathVariable productId: UUID): ResponseEntity<InventoryResponse> {
-        return inventoryService.findByProductId(productId)
+    fun findByProductId(@PathVariable productId: UUID): ResponseEntity<InventoryResponse> =
+        inventoryService.findByProductId(productId)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 
     @GetMapping
-    fun findAll(): ResponseEntity<List<InventoryResponse>> {
-        return inventoryService.findAll()
+    fun findAll(): ResponseEntity<List<InventoryResponse>> =
+        inventoryService.findAll()
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 }

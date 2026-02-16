@@ -17,29 +17,28 @@ class UserController(
 ) {
 
     @PostMapping("/register")
-    fun register(@Valid @RequestBody request: RegisterRequest): ResponseEntity<UserResponse> {
-        return userService.register(request)
+    fun register(@Valid @RequestBody request: RegisterRequest): ResponseEntity<UserResponse> =
+        userService.register(request)
             .fold(
-                ifLeft = { error -> throw DomainErrorException(error) },
-                ifRight = { ResponseEntity(it, HttpStatus.CREATED) }
+                ifLeft =
+                    { error -> throw DomainErrorException(error) },
+                ifRight =
+                    { ResponseEntity(it, HttpStatus.CREATED) }
             )
-    }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: UUID): ResponseEntity<UserResponse> {
-        return userService.findById(id)
+    fun findById(@PathVariable id: UUID): ResponseEntity<UserResponse> =
+        userService.findById(id)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 
     @GetMapping("/email/{email}")
-    fun findByEmail(@PathVariable email: String): ResponseEntity<UserResponse> {
-        return userService.findByEmail(email)
+    fun findByEmail(@PathVariable email: String): ResponseEntity<UserResponse> =
+        userService.findByEmail(email)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 }

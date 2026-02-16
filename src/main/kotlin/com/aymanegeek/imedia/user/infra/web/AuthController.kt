@@ -16,20 +16,18 @@ class AuthController(
 ) {
 
     @PostMapping("/login")
-    fun login(@Valid @RequestBody request: LoginRequest): ResponseEntity<TokenResponse> {
-        return authService.login(request)
+    fun login(@Valid @RequestBody request: LoginRequest): ResponseEntity<TokenResponse> =
+        authService.login(request)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 
     @PostMapping("/refresh")
-    fun refresh(@Valid @RequestBody request: RefreshTokenRequest): ResponseEntity<TokenResponse> {
-        return authService.refresh(request)
+    fun refresh(@Valid @RequestBody request: RefreshTokenRequest): ResponseEntity<TokenResponse> =
+        authService.refresh(request)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 }

@@ -1,6 +1,8 @@
 package com.aymanegeek.imedia.common.config
 
 import com.aymanegeek.imedia.inventory.domain.InventoryId
+import com.aymanegeek.imedia.order.domain.OrderId
+import com.aymanegeek.imedia.order.domain.OrderLineId
 import com.aymanegeek.imedia.product.domain.ProductId
 import com.aymanegeek.imedia.user.domain.UserId
 import org.springframework.context.annotation.Configuration
@@ -22,7 +24,11 @@ class JdbcConfig : AbstractJdbcConfiguration() {
             UuidToProductIdConverter(),
             ProductIdToUuidConverter(),
             UuidToInventoryIdConverter(),
-            InventoryIdToUuidConverter()
+            InventoryIdToUuidConverter(),
+            UuidToOrderIdConverter(),
+            OrderIdToUuidConverter(),
+            UuidToOrderLineIdConverter(),
+            OrderLineIdToUuidConverter()
         )
     }
 }
@@ -55,4 +61,24 @@ class UuidToInventoryIdConverter : Converter<UUID, InventoryId> {
 @WritingConverter
 class InventoryIdToUuidConverter : Converter<InventoryId, UUID> {
     override fun convert(source: InventoryId): UUID = source.value
+}
+
+@ReadingConverter
+class UuidToOrderIdConverter : Converter<UUID, OrderId> {
+    override fun convert(source: UUID): OrderId = OrderId(source)
+}
+
+@WritingConverter
+class OrderIdToUuidConverter : Converter<OrderId, UUID> {
+    override fun convert(source: OrderId): UUID = source.value
+}
+
+@ReadingConverter
+class UuidToOrderLineIdConverter : Converter<UUID, OrderLineId> {
+    override fun convert(source: UUID): OrderLineId = OrderLineId(source)
+}
+
+@WritingConverter
+class OrderLineIdToUuidConverter : Converter<OrderLineId, UUID> {
+    override fun convert(source: OrderLineId): UUID = source.value
 }

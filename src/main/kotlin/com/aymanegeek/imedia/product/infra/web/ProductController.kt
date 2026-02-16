@@ -17,29 +17,26 @@ class ProductController(
 ) {
 
     @PostMapping
-    fun createProduct(@Valid @RequestBody request: CreateProductRequest): ResponseEntity<ProductResponse> {
-        return productService.createProduct(request)
+    fun createProduct(@Valid @RequestBody request: CreateProductRequest): ResponseEntity<ProductResponse> =
+        productService.createProduct(request)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity(it, HttpStatus.CREATED) }
             )
-    }
 
     @GetMapping
-    fun getAllProducts(): ResponseEntity<List<ProductResponse>> {
-        return productService.getAllProducts()
+    fun getAllProducts(): ResponseEntity<List<ProductResponse>> =
+        productService.getAllProducts()
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 
     @GetMapping("/{id}")
-    fun getProductById(@PathVariable id: UUID): ResponseEntity<ProductResponse> {
-        return productService.getProductById(id)
+    fun getProductById(@PathVariable id: UUID): ResponseEntity<ProductResponse> =
+        productService.getProductById(id)
             .fold(
                 ifLeft = { error -> throw DomainErrorException(error) },
                 ifRight = { ResponseEntity.ok(it) }
             )
-    }
 }

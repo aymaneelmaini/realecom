@@ -2,7 +2,12 @@ package com.aymanegeek.imedia.order.domain
 
 import com.aymanegeek.imedia.order.domain.OrderStatus.PENDING
 import com.aymanegeek.imedia.common.vo.Price
+import com.aymanegeek.imedia.product.domain.Product
+import com.aymanegeek.imedia.product.domain.ProductId
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.ReadOnlyProperty
+import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -10,10 +15,12 @@ import java.util.*
 
 @Table(name = "orders", schema = "order_schema")
 data class Order(
-    @Id val id: OrderId? = null,
+    @Id val id: OrderId,
+    @Column("status")
     val status: OrderStatus = PENDING,
-    val orderLines: MutableList<OrderLine> = mutableListOf(),
-    val createdAt: LocalDateTime? = null,
+    @MappedCollection(idColumn = "order_id")
+    val orderLines: MutableSet<OrderLine> = mutableSetOf(),
+    @ReadOnlyProperty val createdAt: LocalDateTime? = null,
 ) {
     val totalPrice: Price
         get() = orderLines
@@ -23,6 +30,17 @@ data class Order(
 
     fun addItem(line: OrderLine) {
         orderLines.add(line)
+    }
+
+    companion object {
+        fun create(
+            id: OrderId = OrderId.generate(),
+            orderLines: MutableSet<OrderLine>
+        ) = Order(
+            id = id,
+            status = PENDING,
+            orderLines = orderLines
+        )
     }
 }
 
@@ -37,5 +55,9 @@ enum class OrderStatus {
 }
 
 @JvmInline
-value class OrderId(val value: UUID)
+value class OrderId(val value: UUID) {
+    companion object {
+        fun generate() = OrderId(UUID.randomUUID())
+    }
+}
 

@@ -24,8 +24,9 @@ dependencies {
     implementation(libs.bundles.kotlin.base)
     implementation(libs.arrow.core)
     implementation(libs.springdoc.openapi)
+    implementation(libs.stripe.java)
+    implementation(libs.postgresql)
     developmentOnly(libs.devtools)
-    runtimeOnly(libs.postgresql)
     testImplementation(libs.starter.test) {
         exclude(group = "org.assertj")
         exclude(group = "org.mockito")

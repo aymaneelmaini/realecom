@@ -4,6 +4,7 @@ import com.aymanegeek.imedia.common.vo.Quantity
 import com.aymanegeek.imedia.common.vo.Price
 import com.aymanegeek.imedia.product.domain.ProductId
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.ReadOnlyProperty
 import org.springframework.data.relational.core.mapping.Embedded
 import org.springframework.data.relational.core.mapping.Embedded.OnEmpty.USE_NULL
 import org.springframework.data.relational.core.mapping.Table
@@ -17,8 +18,12 @@ data class OrderLine(
     val productId: ProductId,
     val quantity: Quantity,
     @Embedded(prefix = "order_line_price_", onEmpty = USE_NULL) val price: Price,
-    val createdAt: LocalDateTime? = null
+    @ReadOnlyProperty val createdAt: LocalDateTime? = null
 )
 
 @JvmInline
-value class OrderLineId(val value: UUID)
+value class OrderLineId(val value: UUID) {
+    companion object {
+        fun generate() = OrderLineId(UUID.randomUUID())
+    }
+}

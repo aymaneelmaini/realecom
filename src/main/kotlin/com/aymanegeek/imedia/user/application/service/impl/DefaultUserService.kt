@@ -1,10 +1,11 @@
-package com.aymanegeek.imedia.user.application.service
+package com.aymanegeek.imedia.user.application.service.impl
 
 import arrow.core.Either
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import com.aymanegeek.imedia.user.application.dto.RegisterRequest
 import com.aymanegeek.imedia.user.application.dto.UserResponse
+import com.aymanegeek.imedia.user.application.service.UserService
 import com.aymanegeek.imedia.user.domain.User
 import com.aymanegeek.imedia.user.domain.UserError
 import com.aymanegeek.imedia.user.domain.UserId
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
-import kotlin.jvm.optionals.getOrElse
 import kotlin.jvm.optionals.getOrNull
 
 

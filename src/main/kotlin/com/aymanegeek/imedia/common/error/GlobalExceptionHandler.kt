@@ -25,7 +25,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             code = error.httpStatus.value(),
             message = error.message,
-            details = error.errorCode,
+            details = error.details ?: error.errorCode,
             timestamp = LocalDateTime.now(),
             url = request.getDescription(false).removePrefix("uri=")
         )

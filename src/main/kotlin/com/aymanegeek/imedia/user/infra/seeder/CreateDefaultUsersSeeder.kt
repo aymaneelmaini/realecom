@@ -1,6 +1,7 @@
 package com.aymanegeek.imedia.user.infra.seeder
 
 import com.aymanegeek.imedia.user.domain.Role
+import com.aymanegeek.imedia.user.domain.Role.*
 import com.aymanegeek.imedia.user.domain.User
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
@@ -23,10 +24,9 @@ class CreateDefaultUsersSeeder(
             email = "admin@imedia.com",
             password = passwordEncoder.encode("password")!!,
             name = "admin",
-            role = Role.ADMIN
+            role = ADMIN
         )
         jdbcTemplate.insert(user)
-
         logger.info("admin created successfully")
     }
 }

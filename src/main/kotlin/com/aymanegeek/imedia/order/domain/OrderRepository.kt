@@ -1,4 +1,5 @@
 package com.aymanegeek.imedia.order.domain
 
-interface OrderRepository {
-}
+import org.springframework.data.repository.CrudRepository
+
+interface OrderRepository : CrudRepository<Order, OrderId>

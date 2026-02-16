@@ -11,6 +11,7 @@ mockk = "1.13.8"
 springmockk = "4.0.2"
 arrow = "2.2.1.1"
 springdoc = "2.7.0"
+stripe = "31.3.0"
 
 [libraries]
 # spring boot starters
@@ -50,6 +51,8 @@ testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgr
 
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+
+stripe-java = { module = "com.stripe:stripe-java", version.ref = "stripe" }
 
 [bundles]
 spring-boot-starters = [

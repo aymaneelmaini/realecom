@@ -20,8 +20,8 @@
       "script": {
         "type": "text/javascript",
         "exec": [
-          "if (!pm.collectionVariables.get('baseUrl')) {",
-          "    pm.collectionVariables.set('baseUrl', 'http://localhost:8080');",
+          "if (!pm.environment.get('baseUrl')) {",
+          "    pm.environment.set('baseUrl', 'http://localhost:8080');",
           "}"
         ]
       }
@@ -57,6 +57,16 @@
       "key": "inventoryId",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "paymentUrl",
+      "value": "",
+      "type": "string"
     }
   ],
   "item": [
@@ -72,7 +82,7 @@
                 "exec": [
                   "if (pm.response.code === 201) {",
                   "    const response = pm.response.json();",
-                  "    pm.collectionVariables.set('userId', response.id);",
+                  "    pm.environment.set('userId', response.id);",
                   "    console.log('User registered with ID:', response.id);",
                   "}"
                 ]
@@ -111,8 +121,8 @@
                 "exec": [
                   "if (pm.response.code === 200) {",
                   "    const response = pm.response.json();",
-                  "    pm.collectionVariables.set('accessToken', response.accessToken);",
-                  "    pm.collectionVariables.set('refreshToken', response.refreshToken);",
+                  "    pm.environment.set('accessToken', response.accessToken);",
+                  "    pm.environment.set('refreshToken', response.refreshToken);",
                   "    console.log('Access Token:', response.accessToken);",
                   "    console.log('Refresh Token:', response.refreshToken);",
                   "    console.log('Token expires in:', response.expiresIn, 'seconds');",
@@ -153,8 +163,8 @@
                 "exec": [
                   "if (pm.response.code === 200) {",
                   "    const response = pm.response.json();",
-                  "    pm.collectionVariables.set('accessToken', response.accessToken);",
-                  "    pm.collectionVariables.set('refreshToken', response.refreshToken);",
+                  "    pm.environment.set('accessToken', response.accessToken);",
+                  "    pm.environment.set('refreshToken', response.refreshToken);",
                   "    console.log('New Access Token:', response.accessToken);",
                   "}"
                 ]
@@ -229,7 +239,7 @@
                 "exec": [
                   "if (pm.response.code === 201) {",
                   "    const response = pm.response.json();",
-                  "    pm.collectionVariables.set('productId', response.id);",
+                  "    pm.environment.set('productId', response.id);",
                   "    console.log('Product created with ID:', response.id);",
                   "}"
                 ]
@@ -296,7 +306,7 @@
                 "exec": [
                   "if (pm.response.code === 201) {",
                   "    const response = pm.response.json();",
-                  "    pm.collectionVariables.set('inventoryId', response.inventoryId);",
+                  "    pm.environment.set('inventoryId', response.inventoryId);",
                   "    console.log('Inventory created with ID:', response.inventoryId);",
                   "}"
                 ]
@@ -306,7 +316,7 @@
               "listen": "prerequest",
               "script": {
                 "exec": [
-                  "if (!pm.collectionVariables.get('productId')) {",
+                  "if (!pm.environment.get('productId')) {",
                   "    console.error('Please create a product first to get productId');",
                   "}"
                 ]
@@ -378,6 +388,134 @@
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "inventories"]
             }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "if (!pm.environment.get('productId')) {",
+                  "    console.error('⚠️ Please create a product first to get productId');",
+                  "    console.error('Run: Auth → Login, then Products → Create Product');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test 1: Status code should be 201 Created",
+                  "pm.test('Status code is 201 Created', function() {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "// Test 2: Response should be JSON",
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    ",
+                  "    // Test 3: Response has required fields",
+                  "    pm.test('Response has orderId', function() {",
+                  "        pm.expect(response).to.have.property('orderId');",
+                  "        pm.expect(response.orderId).to.be.a('string');",
+                  "    });",
+                  "    ",
+                  "    pm.test('Response has status', function() {",
+                  "        pm.expect(response).to.have.property('status');",
+                  "        pm.expect(response.status).to.equal('PENDING');",
+                  "    });",
+                  "    ",
+                  "    pm.test('Response has totalAmount', function() {",
+                  "        pm.expect(response).to.have.property('totalAmount');",
+                  "        pm.expect(response.totalAmount).to.be.a('number');",
+                  "        pm.expect(response.totalAmount).to.be.above(0);",
+                  "    });",
+                  "    ",
+                  "    pm.test('Response has currency', function() {",
+                  "        pm.expect(response).to.have.property('currency');",
+                  "        pm.expect(response.currency).to.equal('USD');",
+                  "    });",
+                  "    ",
+                  "    pm.test('Response has paymentUrl', function() {",
+                  "        pm.expect(response).to.have.property('paymentUrl');",
+                  "        pm.expect(response.paymentUrl).to.be.a('string');",
+                  "        pm.expect(response.paymentUrl).to.include('https://');",
+                  "        pm.expect(response.paymentUrl).to.include('stripe.com');",
+                  "    });",
+                  "    ",
+                  "    pm.test('Response has orderLines array', function() {",
+                  "        pm.expect(response).to.have.property('orderLines');",
+                  "        pm.expect(response.orderLines).to.be.an('array');",
+                  "        pm.expect(response.orderLines).to.have.lengthOf(2);",
+                  "    });",
+                  "    ",
+                  "    // Test 4: Validate order line structure",
+                  "    pm.test('Order lines have correct structure', function() {",
+                  "        const firstLine = response.orderLines[0];",
+                  "        pm.expect(firstLine).to.have.property('productId');",
+                  "        pm.expect(firstLine).to.have.property('quantity');",
+                  "        pm.expect(firstLine).to.have.property('unitPrice');",
+                  "        pm.expect(firstLine).to.have.property('totalPrice');",
+                  "        pm.expect(firstLine.totalPrice).to.equal(firstLine.unitPrice * firstLine.quantity);",
+                  "    });",
+                  "    ",
+                  "    // Test 5: Calculate and verify total amount",
+                  "    pm.test('Total amount matches sum of order lines', function() {",
+                  "        const calculatedTotal = response.orderLines.reduce((sum, line) => {",
+                  "            return sum + line.totalPrice;",
+                  "        }, 0);",
+                  "        pm.expect(response.totalAmount).to.equal(calculatedTotal);",
+                  "    });",
+                  "    ",
+                  "    // Save to collection variables",
+                  "    pm.environment.set('orderId', response.orderId);",
+                  "    pm.environment.set('paymentUrl', response.paymentUrl);",
+                  "    ",
+                  "    // Console output for visibility",
+                  "    console.log('✅ Order created successfully!');",
+                  "    console.log('📦 Order ID:', response.orderId);",
+                  "    console.log('💰 Total Amount:', response.totalAmount, response.currency);",
+                  "    console.log('💳 Payment URL:', response.paymentUrl);",
+                  "    console.log('📊 Order Lines:', response.orderLines.length);",
+                  "    console.log('');",
+                  "    console.log('🔗 Open this URL to complete payment:');",
+                  "    console.log(response.paymentUrl);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderLines\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 2\n    },\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 1\n    }\n  ],\n  \"paymentMethod\": \"STRIPE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders"]
+            },
+            "description": "Creates a new order with multiple product lines. This will:\n1. Verify all products exist\n2. Reserve inventory for each product\n3. Calculate total price\n4. Create a Stripe Payment Link\n5. Return order details with payment URL\n\nRequirements:\n- Valid productId (create a product first)\n- Sufficient inventory available\n- Stripe API keys configured"
           },
           "response": []
         }
