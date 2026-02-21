@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.stripe.java)
     implementation(libs.postgresql)
     developmentOnly(libs.devtools)
+
     testImplementation(libs.starter.test) {
         exclude(group = "org.assertj")
         exclude(group = "org.mockito")
@@ -45,4 +46,45 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+sourceSets {
+    create("e2e") {
+        kotlin {
+            srcDir("src/e2e/kotlin")
+        }
+        resources {
+            srcDir("src/e2e/resources")
+        }
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+configurations {
+    val e2eImplementation by getting {
+        extendsFrom(configurations.testImplementation.get())
+    }
+    val e2eRuntimeOnly by getting {
+        extendsFrom(configurations.testRuntimeOnly.get())
+    }
+}
+
+
+val e2e = tasks.register<Test>("e2e") {
+    description = "Run integration tests (full Spring context with Testcontainers)"
+    group = "verification"
+
+    testClassesDirs = sourceSets["e2e"].output.classesDirs
+    classpath = sourceSets["e2e"].runtimeClasspath
+
+    shouldRunAfter(tasks.test)
+
+    systemProperty("spring.profiles.active", "test")
+}
+
+tasks.register("testAll") {
+    description = "Runs all tests: unit and integration"
+    group = "verification"
+    dependsOn(tasks.test, e2e)
 }
