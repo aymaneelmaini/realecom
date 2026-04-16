@@ -4,11 +4,11 @@
       <option value="$PROJECT_DIR$/.env" />
     </option>
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="imedia.main" />
+    <module name="easymart.main" />
     <selectedOptions>
       <option name="environmentVariables" />
     </selectedOptions>
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.aymanegeek.imedia.ImediaApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.newonedev.easymart.easymartApplication" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

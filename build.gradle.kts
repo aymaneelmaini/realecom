@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.spring.dependency.management)
 }
 
-group = "com.aymanegeek"
+group = "com.newonedev"
 version = "0.0.1-SNAPSHOT"
 description = "E-commerce project"
 
@@ -29,10 +29,10 @@ dependencies {
     developmentOnly(libs.devtools)
 
     testImplementation(libs.starter.test) {
-        exclude(group = "org.assertj")
         exclude(group = "org.mockito")
     }
     testImplementation(libs.starter.testcontainers)
+    testImplementation(libs.spring.security.test)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.testing.mocks)
     testImplementation(libs.bundles.testcontainers.all)

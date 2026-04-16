@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "iMedia E-Commerce API",
-    "description": "Complete API collection for iMedia e-commerce platform with authentication, products, and inventory management",
+    "name": "easymart E-Commerce API",
+    "description": "Complete API collection for easymart e-commerce platform with authentication, products, and inventory management",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {

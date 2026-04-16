@@ -1,1 +1,1 @@
-rootProject.name = "imedia"
+rootProject.name = "easymart"

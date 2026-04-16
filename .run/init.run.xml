@@ -2,8 +2,8 @@
   <configuration default="false" name="init" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="init" />
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="imedia.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.aymanegeek.imedia.ImediaApplication" />
+    <module name="easymart.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.newonedev.easymart.easymartApplication" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
